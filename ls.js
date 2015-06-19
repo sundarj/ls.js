@@ -5,12 +5,18 @@ function LSJS(input) {
     
     this.builtins = Object.create(null);
     this.builtins['+'] = function(x,y) { y = y || 0; return [(+x)+(+y)] };
+    this.builtins['-'] = function(x,y) { y = y || 0; return [(+x)-(+y)] };
+    this.builtins['*'] = function(x,y) { y = y || 1; return [(+x)*(+y)] };
+    this.builtins['//'] = function(x,y) { y = y || 1; return [(+x)/(+y)] };
+    this.builtins['cat'] = function(x, y) { y = y || ''; return (''+x)+(''+y) };
+    
+    this.vars = Object.create(null);
 }
 
 LSJS.prototype.toArray = function() {
     return JSON.parse(this.input.replace(/[()]/g, function(match) {
         return match === '(' ? '[' : ']';
-    }).replace(/\s/g, ',').replace(/[^,\[\]]/g, function(match) {
+    }).replace(/\s/g, ',').replace(/[^,\[\]]+/g, function(match) {
         return '"'+match+'"';
     }));
 }
@@ -31,8 +37,8 @@ LSJS.prototype.parse = function(tokenlist) {
     return act.apply(null, ctx)
 }
 
-LSJS.prototype.compiled = function() {
-    return this.parse(this.toArray(this.input));
+LSJS.prototype.compiled = function(input) {
+    return this.parse(this.toArray(input || this.input));
 }
 
 const lsjs = new LSJS;
