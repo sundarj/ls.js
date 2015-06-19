@@ -4,10 +4,10 @@ function LSJS(input) {
     this.input = input || process.argv[2];
     
     this.builtins = Object.create(null);
-    this.builtins['+'] = function(x, y) { y = y || 0; return [(+x)+(+y)] };
-    this.builtins['-'] = function(x, y) { y = y || 0; return [(+x)-(+y)] };
-    this.builtins['*'] = function(x, y) { y = y || 1; return [(+x)*(+y)] };
-    this.builtins['//'] = function(x, y) { y = y || 1; return [(+x)/(+y)] };
+    this.builtins['+'] = function(x, y) { y = y || 0; return (+x)+(+y) };
+    this.builtins['-'] = function(x, y) { y = y || 0; return (+x)-(+y) };
+    this.builtins['*'] = function(x, y) { y = y || 1; return (+x)*(+y) };
+    this.builtins['//'] = function(x, y) { y = y || 1; return (+x)/(+y) };
     this.builtins['cat'] = function(a, b) { b = b || ''; return (''+a)+(''+b) };
     this.builtins['fn'] = function(args, body) {};
     this.builtins['var'] = function(name, value) {};
